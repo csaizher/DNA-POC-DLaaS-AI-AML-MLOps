@@ -1,0 +1,29 @@
+CERT:
+  certnode1:
+    CREDENTIALS: 'azml-creds'
+    RESOURCE_GROUP: 'chqd1weursghqdaascrit002'
+    WORKSPACE_NAME: 'chqd1weuamlhqdaascrit001'
+    COMMAND: 'train'
+    ENVIRONMENT_NAME: 'admision-credito-02-env'
+    DOCKERFILE: 'docker/training/Dockerfile'
+    EXPERIMENT_NAME: 'admision-credito-experimento'
+    
+PRE:
+  prenode1:
+    CREDENTIALS: 'service-principal-level3-04-cwe-dev'
+    RESOURCE_GROUP: ''
+    WORKSPACE_NAME: ''
+    ENVIRONMENT_NAME: ''
+    DOCKERFILE: ''
+    EXPERIMENT_NAME: ''
+    COMMAND: ''
+PRO:
+  pronode1:
+    CREDENTIALS: 'service-principal-level3-04-cwe-dev'
+    RESOURCE_GROUP: ''
+    WORKSPACE_NAME: ''
+    ENVIRONMENT_NAME: ''
+    DOCKERFILE: ''
+    EXPERIMENT_NAME: ''
+    COMMAND: ''
+    

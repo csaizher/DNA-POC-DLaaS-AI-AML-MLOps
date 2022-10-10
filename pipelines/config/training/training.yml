@@ -1,0 +1,36 @@
+# Dataset version and name to be provided during training
+dataset: 
+  version: 1 
+  train: dlaas-lab-frc-dataset-train-ai-001-admision-credito
+  test: dlaas-lab-frc-dataset-test-ai-001-admision-credito
+  evaluation: dlaas-lab-frc-dataset-validation-ai-001-admision-credito
+# Model name and description to be registered when the trainings ends
+model:
+  name: admision-credito
+  description:  >
+                Modelo de propensión a la admisión de crédito.
+# Training information
+training:
+  # Type of Trainning: single or hyperparameter (multiple trainings using hyperparameters space)
+  type: single
+  # Specific compute resource name for training
+  cluster_name: mlops-dlaas-cpvr
+
+  cluster_type: ci
+  # Configuration parameters for single training. This parameters are not taken into an account for hyperparameter tunning
+  single_parameter:
+    - max_depth_space: 5
+    - n_estimators_space: 50
+    - learning_rate_space: 0.5
+  # Configuration in case of multiple/hyperparameter training
+  hyperparameter:
+    # Metric reference to compare hyperparameter training
+    primary_metric_name: score
+    # In order to getbest model provided the goal for the metric reference
+    # See: https://docs.microsoft.com/en-us/python/api/azureml-train-core/azureml.train.hyperdrive.primarymetricgoal?view=azure-ml-py
+    primary_metric_goal: PrimaryMetricGoal.MAXIMIZE
+# Global
+global:
+  # Default compute resource name
+  cluster_name: mlops-dlaas-cpvr
+

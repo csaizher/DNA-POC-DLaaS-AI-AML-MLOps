@@ -1,0 +1,24 @@
+#!/usr/bin/env groovy
+
+// Documentation: https://confluence.alm.europe.cloudcenter.corp/display/C3AL/Pipelines+Introduction 
+
+@Library(['scf-pipes-shared-library@mlpipe',
+          'jenkins-shared-utils' ,
+         'scq-pipeline-library']) _
+
+def config = readYaml text: """
+---
+  DOMAIN: 'SCF'
+  PROJECT_NAME: 'global-alm'
+  APP_NAME: 'scf-daas-ai-ac-aml-001'
+  APP_TYPE: 'MachineLearning'
+  BLUEGREEN: 'OFF'
+  DEBUG_MODE: '0'
+  LOG_LEVEL: 'DEBUG'
+  """
+
+config.keySet().each{
+    env."${it}" = config[it]
+}
+
+"${pipelineForTechBranch(env)}"(config)

@@ -1,0 +1,72 @@
+# Publish AzureML pipeline to execute inference
+trigger:
+ - mlops/inference-batch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- name: SUBSCRIPTION
+  value: a3c6aea0-45c1-4068-93c1-70438557bb15
+- name: RESOURCE_GROUP
+  value: GR-DNA-POC_DLaaS
+- name: WORKSPACE_NAME
+  value: mlpoc-mlops-for-dlaas
+- name: System.Debug
+  value: true
+
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: "3.8"
+      architecture: "x64"
+  
+  - task: ShellScript@2
+    displayName: "Install and configure the Azure CLI"
+    inputs:
+      scriptPath: pipelines/scripts/azureml-cli-config.sh
+      args: 
+
+  - task: ShellScript@2
+    displayName: "Install and configure the MLFlow CLI"
+    inputs:
+      scriptPath: pipelines/scripts/mlflow-cli-config.sh
+      args: 
+
+  - task: PipAuthenticate@1
+    displayName: Auth to AMLOPs ml_architecture Artifactory
+    inputs:
+      artifactFeeds: 'DNA-POC-DLaaS/ml_architecture'
+      onlyAddExtraIndex: true          
+  
+  - task: ShellScript@2
+    displayName: "Install base packages used by the srcripts"
+    inputs:
+      scriptPath: pipelines/scripts/env-scripts-config.sh
+
+  # This cannot be done using a ShellScript task, as it requieres a Service Principal when using Azure ML CLI
+  # - task: ShellScript@2
+  #  displayName: "Train model"
+  #  inputs:
+  #    scriptPath: pipelines/scripts/azureml_utils.sh
+  #    args: "train $(SUBSCRIPTION) $(RESOURCE_GROUP) $(WORKSPACE_NAME) $(ENVIRONMENT_NAME) $(DOCKERFILE) $(EXPERIMENT_NAME) $(MODEL_NAME) '$(MODEL_DESCRIPTION)'"
+  - task: AzureCLI@2
+    displayName: "Deploy model"
+    timeoutInMinutes: 600
+    inputs:
+      azureSubscription: 'service-aml'
+      scriptType: 'bash'
+      scriptLocation: 'scriptPath'
+      scriptPath: 'pipelines/scripts/azureml_utils.sh'
+      arguments: "deploy-bath $(SUBSCRIPTION) $(RESOURCE_GROUP) $(WORKSPACE_NAME) $(Build.ArtifactStagingDirectory)"
+      # addSpnToEnvironment: true
+      useGlobalConfig: true
+  # Publish AML Pipeline metadata
+  - task: PublishBuildArtifacts@1
+    displayName: publish variables
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'variables'
+      publishLocation: 'Container'      
+

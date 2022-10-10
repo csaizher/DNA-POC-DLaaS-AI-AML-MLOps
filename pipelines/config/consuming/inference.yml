@@ -1,0 +1,36 @@
+# Global 
+global:
+  # Default compute resource name
+  cluster_name: mlops-dlaas-cpvr-inference
+# Model name and version for inference (default values)
+model:
+  name: admision-credito
+  version: 9
+# Consuming information
+inference:
+  # Specific compute resource name for training (default values)
+  cluster_name: mlops-dlaas-cpvr-inference 
+  # Consuming mode
+  mode: batch
+  # Custom parameters
+  model_inference_parameters: '{ }'
+  # Technical parameters (default values)
+  batch_size: 500
+  process_count_per_node: 2
+  node_count: 1
+  # For one process, over an hour is required to finish the scoring, 4K seconds are configured
+  run_invocation_timeout: 4000
+  # Environment name
+  #environment_name: admision-credito-inference
+  environment_name: admision-credito-env
+  # Header columns for the output dataset
+  #output_inference_columns: '{ "columns": ["Ind_SCF_Funded"] }'
+  output_inference_columns: '{ }'
+  # Inference datatypes, by default, columns not included are considered strings
+  # inference_dataset_datatypes: '{ "years_of_experience": "long" }'
+  inference_dataset_datatypes: '{ }'
+  # Published pipeline name
+  pipeline_name: admision-credito-inference-pipeline
+  # Published pipeline description
+  pipeline_description: Pipeline de inferencia publicada para el caso de admision de crédito
+  

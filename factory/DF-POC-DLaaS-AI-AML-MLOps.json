@@ -1,0 +1,9 @@
+{
+	"name": "DF-POC-DLaaS-AI-AML-MLOps",
+	"location": "northeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "15112dd3-274d-4b43-8388-2a0ccfaab4e5",
+		"tenantId": "6f766771-4530-440c-a901-23650877f11a"
+	}
+}

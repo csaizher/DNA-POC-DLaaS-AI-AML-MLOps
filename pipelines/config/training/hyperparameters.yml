@@ -1,0 +1,29 @@
+# This file is the hyperparameters configuration file.
+# Their content is completely filled by the
+# datascientist/analist for their own use.
+# Format file follows the AML GridHyperParameterSampling
+# All the combinations (search space) are passed to train
+# code. For each execution a specific combination is passed
+# to train code as a "dictionary"
+# If this file doesn't exists or it has no content a regular 
+# training is launched (single train execution)
+#
+GridParameterSampling:
+  # Concurrency when working with Random Forest when building each tree
+  max_depth_space:
+    choice:
+      - 5
+  n_estimators_space:
+    choice:
+      - 50
+      - 162
+      - 274
+      - 386
+      - 500
+  learning_rate_space: 
+    choice:
+      - 0.0005
+      - 0.2503
+      - 0.5001
+      - 0.7499
+      - 1.0000
